@@ -54,14 +54,19 @@ onMounted(() => {
   threePlus.gltfLoader("./model/building-min02.glb").then((gltf) => {
     let vetroMaterial = null;
     gltf.scene.traverse((child) => {
+      // 所有物体投射阴影和接收阴影
       if (child.isMesh) {
         child.castShadow = true;
         child.receiveShadow = true;
+
+        // 去除阴影的多余的波纹
         child.material.shadowSide = THREE.BackSide;
       }
+
       if (child.isMesh && child.name == "Plane") {
         child.visible = false;
       }
+
       if (
         child.isMesh &&
         child.material.name == "Vetro" &&
@@ -70,6 +75,7 @@ onMounted(() => {
         vetroMaterial = child.material;
       }
     });
+
     bgPromise.then((texture) => {
       threePlus.addSphereSky(
         () => {

@@ -446,12 +446,18 @@ export default class ThreePlus {
           // console.log(this.isDay);
           nightCallback();
         }
+
+        // 白天
         if (Math.abs(uTime.value - 12) < 4) {
           this.renderer.toneMappingExposure = 1;
         }
+
+        // 晚上
         if (Math.abs(uTime.value - 12) > 6) {
           this.renderer.toneMappingExposure = 0.3;
         }
+
+        // 白天和晚上过渡阶段
         if (
           Math.abs(uTime.value - 12) >= 4 &&
           Math.abs(uTime.value - 12) <= 6

@@ -29,17 +29,23 @@ export default class SphereSky {
         `
         #include <dithering_fragment>
         float dayStrength = 0.0;
-        if( abs(uTime - 12.0) < 4.0 ){
+
+        // 白天
+        if (abs(uTime - 12.0) < 4.0) {
           dayStrength = 1.0;
         }
-        if( abs(uTime - 12.0) > 6.0 ){
+
+        // 晚上
+        if (abs(uTime - 12.0) > 6.0) {
           dayStrength = 0.15;
         }
-        if( abs(uTime - 12.0) >= 4.0 && abs(uTime - 12.0) <= 6.0 ){
+
+        // 白天和晚上过渡阶段
+        if (abs(uTime - 12.0) >= 4.0 && abs(uTime - 12.0) <= 6.0){
           dayStrength = 1.0 - ( abs(uTime - 12.0) - 4.0 ) / 2.0;
           dayStrength = clamp( dayStrength, 0.15, 1.0 );
         }
-        gl_FragColor= mix(vec4(0.0,0.0,0.0,1.0),gl_FragColor,dayStrength);
+        gl_FragColor= mix(vec4(0.0, 0.0, 0.0, 1.0), gl_FragColor, dayStrength);
         `
       );
     };
@@ -55,6 +61,7 @@ export default class SphereSky {
 
     // 创建直线光
     let sunLight = new THREE.DirectionalLight(0xffffcc, 2);
+    // 投射阴影
     sunLight.castShadow = true;
     sunLight.shadow.camera.near = 0.1;
     sunLight.shadow.camera.far = 10000;
